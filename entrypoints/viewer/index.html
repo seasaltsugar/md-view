@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+ <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>MD View</title>
+    <link rel="stylesheet" href="../../styles/app.css" />
+    <link rel="stylesheet" href="../../styles/document.css" />
+    <link rel="stylesheet" href="../../styles/print.css" media="print" />
+  </head>
+  <body>
+    <!-- Icons: defined once, referenced with <use>. -->
+    <svg class="sprite" aria-hidden="true" focusable="false">
+      <symbol id="i-toc" viewBox="0 0 24 24"><path d="M4 6h16M4 12h10M4 18h13" /></symbol>
+      <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5H9l2 2.5h8.5A1.5 1.5 0 0 1 21 9v8.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z" /></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6" /><path d="M20 20l-4.2-4.2" /></symbol>
+      <symbol id="i-up" viewBox="0 0 24 24"><path d="M6 15l6-6 6 6" /></symbol>
+      <symbol id="i-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></symbol>
+      <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" /></symbol>
+      <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2" /><path d="M5 15a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2" /></symbol>
+      <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1" /><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1" /></symbol>
+      <symbol id="i-markdown" viewBox="0 0 24 24"><path d="M3.5 17V7l3.5 4 3.5-4v10" /><path d="M16 7v8m-2.7-2.6L16 15.3l2.7-2.9" /></symbol>
+      <symbol id="i-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" /><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6L7 7M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4" /></symbol>
+      <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z" /></symbol>
+      <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2" /><path d="M8 20h8M12 16v4" /></symbol>
+      <symbol id="i-print" viewBox="0 0 24 24"><path d="M7 9V4h10v5" /><path d="M7 17H5a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2" /><rect x="7" y="14" width="10" height="6" /></symbol>
+      <symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6" fill="currentColor" stroke="none" /><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none" /><circle cx="19" cy="12" r="1.6" fill="currentColor" stroke="none" /></symbol>
+      <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" /></symbol>
+      <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="M12 11v5M12 8h.01" /></symbol>
+      <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 4l9 16H3z" /><path d="M12 10v4M12 17h.01" /></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" /></symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2" /><path d="M8 11V8a4 4 0 0 1 8 0v3" /></symbol>
+      <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M3 3l18 18" /><path d="M10.6 6.1A9.6 9.6 0 0 1 12 6c5 0 8.5 4 9.5 6a12 12 0 0 1-2.6 3.3M6.6 7.2A12.7 12.7 0 0 0 2.5 12c1 2 4.5 6 9.5 6 1.5 0 2.8-.4 4-.9" /></symbol>
+      <symbol id="i-infinity" viewBox="0 0 24 24"><path d="M8 8a4 4 0 1 0 0 8c4 0 4-8 8-8a4 4 0 1 1 0 8c-4 0-4-8-8-8z" /></symbol>
+      <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" /><circle cx="9" cy="10" r="1.5" /><path d="M21 16l-5-5-8 8" /></symbol>
+    </svg>
+
+    <a class="skip-link" href="#ui-main">Skip to document</a>
+
+    <div class="app" id="ui-app" data-state="welcome" data-toc="closed" data-search="closed" data-has-toc="false">
+      <div class="progress" id="ui-progress" hidden role="progressbar" aria-label="Rendering document"></div>
+
+      <header class="toolbar" id="ui-toolbar">
+        <button class="icon-btn" id="ui-toc-toggle" type="button" aria-label="Table of contents" aria-controls="ui-toc" aria-expanded="false" data-doc-only data-needs-toc>
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-toc" /></svg>
+        </button>
+        <span class="file-name" id="ui-file-name" data-doc-only></span>
+        <span class="toolbar-spacer"></span>
+
+        <div class="segmented" role="group" aria-label="View" data-doc-only>
+          <button type="button" id="ui-view-rendered" aria-pressed="true">Rendered</button>
+          <button type="button" id="ui-view-source" aria-pressed="false">Source</button>
+        </div>
+
+        <button class="icon-btn" id="ui-search-toggle" type="button" aria-label="Search" title="Search (Ctrl+F)" aria-keyshortcuts="Control+F Meta+F" data-doc-only>
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-search" /></svg>
+        </button>
+
+        <button class="btn" id="ui-open" type="button" aria-label="Open file" title="Open file (Ctrl+O)" aria-keyshortcuts="Control+O Meta+O" data-doc-only>
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-folder" /></svg>
+          <span class="btn-label">Open</span>
+        </button>
+
+        <div class="menu-wrap">
+          <button class="icon-btn" id="ui-theme-button" type="button" aria-label="Theme" title="Theme" aria-haspopup="menu" aria-expanded="false" aria-controls="ui-theme-menu">
+            <svg class="icon" aria-hidden="true" focusable="false"><use id="ui-theme-icon" href="#i-monitor" /></svg>
+          </button>
+          <div class="menu" id="ui-theme-menu" role="menu" aria-label="Theme" hidden>
+            <button class="menu-item" type="button" role="menuitemradio" aria-checked="true" data-theme-choice="system">System</button>
+            <button class="menu-item" type="button" role="menuitemradio" aria-checked="false" data-theme-choice="light">Light</button>
+            <button class="menu-item" type="button" role="menuitemradio" aria-checked="false" data-theme-choice="dark">Dark</button>
+          </div>
+        </div>
+
+        <button class="icon-btn hide-narrow" id="ui-copy-markdown" type="button" aria-label="Copy Markdown" title="Copy Markdown (Ctrl+Shift+C)" aria-keyshortcuts="Control+Shift+C Meta+Shift+C" data-doc-only>
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-copy" /></svg>
+        </button>
+        <button class="icon-btn hide-narrow" id="ui-print" type="button" aria-label="Print" title="Print" data-doc-only>
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-print" /></svg>
+        </button>
+
+        <div class="menu-wrap">
+          <button class="icon-btn" id="ui-more-button" type="button" aria-label="More" title="More" aria-haspopup="menu" aria-expanded="false" aria-controls="ui-more-menu">
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-more" /></svg>
+          </button>
+          <div class="menu" id="ui-more-menu" role="menu" aria-label="More" hidden>
+            <a class="menu-item menu-item-support" id="ui-support-menu-link" role="menuitem" target="_blank" rel="noopener noreferrer" hidden>
+              <svg class="icon icon-heart" aria-hidden="true" focusable="false"><use href="#i-heart" /></svg>
+              <span>Support MD View</span>
+            </a>
+            <button class="menu-item" type="button" role="menuitem" id="ui-about-open">About MD View</button>
+            <button class="menu-item narrow-only" type="button" role="menuitem" id="ui-copy-markdown-menu" data-doc-only>Copy Markdown</button>
+            <button class="menu-item narrow-only" type="button" role="menuitem" id="ui-print-menu" data-doc-only>Print</button>
+            <div class="menu-separator" role="separator"></div>
+            <button class="menu-item" type="button" role="menuitemcheckbox" aria-checked="true" id="ui-reminders-menu" hidden>Show support reminders</button>
+          </div>
+        </div>
+      </header>
+
+      <div class="searchbar" id="ui-searchbar" role="search" hidden>
+        <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-search" /></svg>
+        <input id="ui-search-input" type="search" placeholder="Search in document" aria-label="Search in document" autocomplete="off" spellcheck="false" />
+        <span class="search-count" id="ui-search-count" aria-live="polite"></span>
+        <button class="icon-btn" id="ui-search-prev" type="button" aria-label="Previous result" title="Previous (Shift+Enter)">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-up" /></svg>
+        </button>
+        <button class="icon-btn" id="ui-search-next" type="button" aria-label="Next result" title="Next (Enter)">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-down" /></svg>
+        </button>
+        <button class="icon-btn" id="ui-search-close" type="button" aria-label="Close search" title="Close (Esc)">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-close" /></svg>
+        </button>
+      </div>
+
+      <div class="layout">
+        <nav class="toc" id="ui-toc" aria-label="Table of contents">
+          <div class="toc-scroll" id="ui-toc-scroll">
+            <p class="toc-title">Contents</p>
+            <div id="ui-toc-list"></div>
+          </div>
+        </nav>
+        <div class="toc-backdrop" id="ui-toc-backdrop" hidden></div>
+
+        <main class="main" id="ui-main" tabindex="-1">
+          <div class="notice notice-error" id="ui-error" role="alert" hidden>
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-alert" /></svg>
+            <p id="ui-error-text"></p>
+            <button class="icon-btn" id="ui-error-close" type="button" aria-label="Dismiss message">
+              <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-close" /></svg>
+            </button>
+          </div>
+
+         <section class="welcome" id="ui-welcome" aria-labelledby="ui-welcome-title">
+            <div class="welcome-container">
+              <div class="logo-wrapper">
+                <img src="../../icon/128.png" alt="MD View Logo" class="app-logo" />
+              </div>
+              <div class="welcome-header">
+                <h1 id="ui-welcome-title">MD View</h1>
+                <p class="subtitle">Your local, distraction-free Markdown reader.</p>
+              </div>
+              
+              <div class="dropzone" id="ui-dropzone">
+                <button id="ui-open-hero" class="btn btn-primary btn-large">Open Markdown File</button>
+                <p class="drag-text">or drag and drop a .md file here</p>
+              </div>
+
+              <div class="feature-grid">
+                <div class="feature-card">
+                  <h3>🔒 100% Private</h3>
+                  <p>Zero tracking, zero analytics, zero uploads. Your files never leave your computer.</p>
+                </div>
+                <div class="feature-card">
+                  <h3>⚡ Instant Render</h3>
+                  <p>GitHub-flavored formatting, syntax highlighting, and auto-generated tables of contents.</p>
+                </div>
+                <div class="feature-card">
+                  <h3>☕ Free Forever</h3>
+                  <p>No accounts, no paywalls, no ads. Just a clean reading experience.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="doc" id="ui-doc" hidden>
+            <div class="notices" id="ui-notices"></div>
+            <article class="markdown-body" id="ui-article"></article>
+            <pre class="source-view" id="ui-source" tabindex="0" aria-label="Markdown source" hidden><code id="ui-source-code"></code></pre>
+          </section>
+        </main>
+      </div>
+
+      <aside class="support-note" id="ui-support-note" role="region" aria-label="Support MD View" hidden>
+        <p class="support-note-title" id="ui-support-note-title"></p>
+        <p>MD View is free, private, and independently built.</p>
+        <p>If it has been useful, you can support continued development.</p>
+        <div class="support-note-actions">
+          <a class="btn btn-primary" id="ui-support-note-link" target="_blank" rel="noopener noreferrer">
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-heart" /></svg>
+            <span>Support MD View</span>
+          </a>
+          <button class="btn" id="ui-support-later" type="button">Not now</button>
+          <button class="link-btn" id="ui-support-never" type="button">Don’t show again</button>
+        </div>
+      </aside>
+    </div>
+
+    <div class="toasts" id="ui-toasts" role="status" aria-live="polite"></div>
+
+    <div class="drop-overlay" id="ui-drop-overlay" hidden aria-hidden="true">
+      <p>Drop to open</p>
+    </div>
+
+    <dialog class="about" id="ui-about" aria-labelledby="ui-about-title">
+      <div class="about-body">
+        <h2 id="ui-about-title">MD View</h2>
+        <p class="about-lead">A free, private Markdown reader.</p>
+        <p>Your files are processed locally and never uploaded.</p>
+        <p>MD View contains no ads, analytics, tracking, or account system.</p>
+
+        <div class="about-support" id="ui-about-support" hidden>
+          <p>If MD View saves you time, you can optionally support continued development.</p>
+          <a class="btn btn-primary" id="ui-about-support-link" target="_blank" rel="noopener noreferrer">
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-heart" /></svg>
+            <span>Support MD View</span>
+          </a>
+          <label class="check" id="ui-about-reminders-label">
+            <input type="checkbox" id="ui-about-reminders" />
+            <span>Show support reminders</span>
+          </label>
+        </div>
+
+        <p class="about-version">Version <span id="ui-about-version"></span></p>
+        <ul class="about-links">
+          <li><a id="ui-about-privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a></li>
+          <li><a id="ui-about-repo" target="_blank" rel="noopener noreferrer">GitHub repository</a></li>
+          <li><a id="ui-about-issues" target="_blank" rel="noopener noreferrer">Report an issue</a></li>
+        </ul>
+        <div class="about-actions">
+          <button class="btn" id="ui-about-close" type="button">Close</button>
+        </div>
+      </div>
+    </dialog>
+
+    <input class="visually-hidden" id="ui-file-input" type="file" tabindex="-1" aria-label="Choose a Markdown file" />
+
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

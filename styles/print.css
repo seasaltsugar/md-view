@@ -1,0 +1,136 @@
+/*
+ * Print / Save as PDF.
+ * Hides every control, lays the document out for paper and keeps code and tables intact.
+ */
+@media print {
+  :root {
+    color-scheme: light;
+    --bg: #fff;
+    --surface: #fff;
+    --surface-2: #f4f5f7;
+    --ink: #111;
+    --ink-2: #333;
+    --ink-3: #555;
+    --rule: #d6d9df;
+    --rule-strong: #b8bcc6;
+    --accent: #1a3aa8;
+    --code-bg: #f5f6f8;
+    --syntax-comment: #555;
+    --syntax-keyword: #6b1fa0;
+    --syntax-string: #075c3b;
+    --syntax-number: #8a3a00;
+    --syntax-title: #163a9a;
+    --syntax-type: #0a5670;
+    --syntax-attr: #7a4800;
+    --syntax-variable: #222;
+  }
+
+  @page {
+    margin: 18mm 16mm;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+  }
+
+  .skip-link,
+  .progress,
+  .toolbar,
+  .searchbar,
+  .toc,
+  .toc-backdrop,
+  .notices,
+  .notice,
+  .support-note,
+  .toasts,
+  .drop-overlay,
+  .about,
+  .welcome,
+  .heading-actions,
+  .code-copy,
+  [data-mdv-ui] button {
+    display: none !important;
+  }
+
+  .layout {
+    display: block !important;
+  }
+
+  .markdown-body {
+    width: auto;
+    max-width: none;
+    padding: 0;
+    font-size: 11pt;
+    line-height: 1.55;
+  }
+  .markdown-body h1 {
+    font-size: 24pt;
+  }
+  .markdown-body h2 {
+    font-size: 18pt;
+  }
+  .markdown-body h3 {
+    font-size: 14pt;
+  }
+  .markdown-body :is(h1, h2, h3, h4, h5, h6) {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  .markdown-body a {
+    color: inherit;
+    text-decoration: underline;
+  }
+
+  /* Code keeps its formatting but wraps instead of being cut off at the page edge. */
+  .code-block {
+    break-inside: avoid-page;
+    border-color: var(--rule-strong);
+  }
+  .code-block pre {
+    overflow: visible;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    font-size: 9pt;
+  }
+  .code-header {
+    min-height: 0;
+    padding: 0.15rem 0.7rem;
+  }
+
+  /* Tables: show everything, repeat the header row on each page. */
+  .table-wrap {
+    max-height: none;
+    overflow: visible;
+    border-color: var(--rule-strong);
+  }
+  .markdown-body table {
+    width: 100%;
+    font-size: 9.5pt;
+  }
+  .markdown-body th {
+    position: static;
+  }
+  .markdown-body thead {
+    display: table-header-group;
+  }
+  .markdown-body tr,
+  .markdown-body img,
+  .image-placeholder,
+  .markdown-body blockquote {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .source-view {
+    width: auto;
+    padding: 0;
+    font-size: 9pt;
+  }
+
+  ::highlight(mdv-search),
+  ::highlight(mdv-search-current) {
+    background-color: transparent;
+  }
+}

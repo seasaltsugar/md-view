@@ -1,0 +1,30 @@
+{
+  "name": "md-view",
+  "version": "1.0.0",
+  "description": "Beautifully read Markdown files directly in Chrome. Private, local, free, and distraction-free.",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "dev": "wxt",
+    "build": "wxt build && node scripts/check-release.mjs",
+    "zip": "wxt zip && node scripts/check-release.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "icons": "node scripts/generate-icons.mjs",
+    "postinstall": "wxt prepare"
+  },
+  "dependencies": {
+    "dompurify": "^3.2.6",
+    "highlight.js": "^11.11.1",
+    "markdown-it": "^14.1.0"
+  },
+  "devDependencies": {
+    "@types/markdown-it": "^14.1.2",
+    "jsdom": "^26.1.0",
+    "typescript": "^5.6.0",
+    "vitest": "^3.2.4",
+    "wxt": "^0.20.0"
+  }
+}
